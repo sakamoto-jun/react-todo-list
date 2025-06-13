@@ -6,7 +6,7 @@ export const TOGGLE_TODO_ALL = "TOGGLE_TODO_ALL";
 export const DELETE_TODO_COMPLETED = "DELETE_TODO_COMPLETED";
 export const SET_FILTER = "SET_FILTER";
 
-export const reducer = (state, action) => {
+export function reducer(state, action) {
   switch (action.type) {
     case ADD_TODO:
       return {
@@ -65,4 +65,4 @@ export const reducer = (state, action) => {
     default:
       return state;
   }
-};
+}

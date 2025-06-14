@@ -1,9 +1,13 @@
 import { useContext, useState } from "react";
 import TodoContext from "../context/TodoContext";
 import { ADD_TODO, SET_FILTER } from "../reducer";
-import "./Controls.css";
 
 function Controls() {
+  const inputClass =
+    "grow border-[1px] border-solid border-gray-500 rounded-[6px] bg-black px-[12px] py-[4px] text-[14px] leading-tight text-white";
+  const sharedUiClass =
+    "shrink-0 border-[1px] border-solid border-gray-500 rounded-[6px] bg-black px-[12px] py-[0px] text-white cursor-pointer";
+
   const [text, setText] = useState("");
   const { state, dispatch, idRef } = useContext(TodoContext);
 
@@ -24,20 +28,20 @@ function Controls() {
   };
 
   return (
-    <div className="controls">
+    <div className="flex gap-[6px] h-[30px]">
       <input
         type="text"
-        className="input"
+        className={inputClass}
         placeholder="할 일을 입력하세요."
         value={text}
         onChange={handleChange}
         onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
       />
-      <button className="button" onClick={handleSubmit}>
+      <button className={sharedUiClass} onClick={handleSubmit}>
         추가
       </button>
       <select
-        className="select"
+        className={sharedUiClass}
         value={state.filterType}
         onChange={handleChangeFilterType}
       >

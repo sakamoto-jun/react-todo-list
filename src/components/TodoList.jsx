@@ -2,9 +2,14 @@ import { useContext } from "react";
 import TodoContext from "../context/TodoContext";
 import { DELETE_TODO_COMPLETED, TOGGLE_TODO_ALL } from "../reducer";
 import TodoItem from "./TodoItem";
-import "./TodoList.css";
 
 function TodoList() {
+  const listClass =
+    "p-[5px] mt-[16px] border border-solid border-gray-500 rounded-[6px]";
+  const headerClass = "flex items-center gap-[12px] h-[40px] px-[12px]";
+  const buttonClass =
+    "shrink-0 border border-solid border-gray-500 hover:border-red-500 rounded-[6px] bg-black px-[12px] text-white hover:text-red-500 cursor-pointer";
+
   const { state, dispatch } = useContext(TodoContext);
 
   const filteredList = state.list.filter((item) => {
@@ -29,20 +34,17 @@ function TodoList() {
   };
 
   return (
-    <div className="todo-list">
-      <div className="todo-header">
+    <div className={listClass}>
+      <div className={headerClass}>
         <input
           type="checkbox"
-          className="todo-header-checkbox"
+          className="w-[16px] h-[16px]"
           checked={isAllCompleted}
           onChange={handleToggleAll}
         />
-        <p className="todo-header-text">To Do</p>
+        <p className="grow">To Do</p>
         {completedCount > 0 && (
-          <button
-            className="todo-header-button"
-            onClick={handleDeleteCompleted}
-          >
+          <button className={buttonClass} onClick={handleDeleteCompleted}>
             {completedCount}개 선택 삭제
           </button>
         )}

@@ -1,6 +1,5 @@
-import { useContext } from "react";
-import TodoContext from "../context/TodoContext";
-import { DELETE_TODO_COMPLETED, TOGGLE_TODO_ALL } from "../reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteTodoCompleted, toggleTodoAll } from "../store/todoSlice";
 import TodoItem from "./TodoItem";
 
 function TodoList() {
@@ -10,7 +9,8 @@ function TodoList() {
   const buttonClass =
     "shrink-0 border border-solid border-gray-500 hover:border-red-500 rounded-[6px] bg-black px-[12px] text-white hover:text-red-500 cursor-pointer";
 
-  const { state, dispatch } = useContext(TodoContext);
+  const state = useSelector((state) => state.todo);
+  const dispatch = useDispatch();
 
   const filteredList = state.list.filter((item) => {
     switch (state.filterType) {
@@ -26,12 +26,8 @@ function TodoList() {
     filteredList.length > 0 && filteredList.every((item) => item.completed);
   const completedCount = filteredList.filter((item) => item.completed).length;
 
-  const handleToggleAll = (e) => {
-    dispatch({ type: TOGGLE_TODO_ALL, payload: e.target.checked });
-  };
-  const handleDeleteCompleted = () => {
-    dispatch({ type: DELETE_TODO_COMPLETED });
-  };
+  const handleToggleAll = (e) => dispatch(toggleTodoAll(e.target.checked));
+  const handleDeleteCompleted = () => dispatch(deleteTodoCompleted());
 
   return (
     <div className={listClass}>

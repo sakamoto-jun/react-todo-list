@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
-import TodoContext from "../context/TodoContext";
-import { ADD_TODO, SET_FILTER } from "../reducer";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo, setFilter } from "../store/todoSlice";
 
 function Controls() {
   const inputClass =
@@ -8,23 +8,28 @@ function Controls() {
   const sharedUiClass =
     "shrink-0 border-[1px] border-solid border-gray-500 rounded-[6px] bg-black px-[12px] py-[0px] text-white cursor-pointer";
 
+  const idRef = useRef(Number(localStorage.getItem("ID")) || 0);
   const [text, setText] = useState("");
-  const { state, dispatch, idRef } = useContext(TodoContext);
+  const state = useSelector((state) => state.todo);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    localStorage.setItem("ID", idRef.current);
+  }, [state.list]);
 
   const handleChange = (e) => setText(e.target.value);
   const handleSubmit = () => {
     if (text.trim() === "") return;
-    dispatch({
-      type: ADD_TODO,
-      payload: {
+    dispatch(
+      addTodo({
         id: (idRef.current += 1),
-        text: text,
-      },
-    });
+        text,
+      })
+    );
     setText("");
   };
   const handleChangeFilterType = (e) => {
-    dispatch({ type: SET_FILTER, payload: e.target.value });
+    dispatch(setFilter(e.target.value));
   };
 
   return (

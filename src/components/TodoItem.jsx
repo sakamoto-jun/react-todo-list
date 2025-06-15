@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
-import TodoContext from "../context/TodoContext";
-import { DELETE_TODO, TOGGLE_TODO, UPDATE_TODO } from "../reducer";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteTodo, toggleTodo, updateTodo } from "../store/todoSlice";
 
 function TodoItem({ id, text, completed }) {
   const itemClass = "flex items-center gap-[12px] h-[65px] px-[12px]";
@@ -11,26 +11,21 @@ function TodoItem({ id, text, completed }) {
 
   const [edit, setEdit] = useState(false);
   const [inputText, setInputText] = useState(text);
-  const { dispatch } = useContext(TodoContext);
+  const dispatch = useDispatch();
 
-  const handleToggle = () => {
-    dispatch({ type: TOGGLE_TODO, payload: id });
-  };
+  const handleToggle = () => dispatch(toggleTodo(id));
   const handleEdit = () => setEdit((prev) => !prev);
   const handleChange = (e) => setInputText(e.target.value);
+  const handleDelete = () => dispatch(deleteTodo(id));
   const handleSubmit = () => {
     if (inputText.trim() === "") return;
-    dispatch({
-      type: UPDATE_TODO,
-      payload: {
+    dispatch(
+      updateTodo({
         id,
         text: inputText,
-      },
-    });
+      })
+    );
     setEdit(false);
-  };
-  const handleDelete = () => {
-    dispatch({ type: DELETE_TODO, payload: id });
   };
 
   return (

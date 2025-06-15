@@ -1,18 +1,23 @@
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import Controls from "./components/Controls";
 import Layout from "./components/Layout";
 import Title from "./components/Title";
 import TodoList from "./components/TodoList";
-import TodoProvider from "./context/TodoProvider";
 
 function App() {
+  const state = useSelector((state) => state.todo);
+
+  useEffect(() => {
+    localStorage.setItem("TODOS", JSON.stringify(state.list));
+  }, [state.list]);
+
   return (
-    <TodoProvider>
-      <Layout>
-        <Title />
-        <Controls />
-        <TodoList />
-      </Layout>
-    </TodoProvider>
+    <Layout>
+      <Title />
+      <Controls />
+      <TodoList />
+    </Layout>
   );
 }
 

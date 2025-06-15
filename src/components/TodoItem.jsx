@@ -13,18 +13,14 @@ function TodoItem({ id, text, completed }) {
   const [inputText, setInputText] = useState(text);
   const dispatch = useDispatch();
 
-  const handleToggle = () => dispatch(toggleTodo(id));
+  const handleToggle = () =>
+    dispatch(toggleTodo({ id, completed: !completed }));
   const handleEdit = () => setEdit((prev) => !prev);
   const handleChange = (e) => setInputText(e.target.value);
   const handleDelete = () => dispatch(deleteTodo(id));
   const handleSubmit = () => {
     if (inputText.trim() === "") return;
-    dispatch(
-      updateTodo({
-        id,
-        text: inputText,
-      })
-    );
+    dispatch(updateTodo({ id, text: inputText }));
     setEdit(false);
   };
 

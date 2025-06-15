@@ -1,16 +1,20 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Controls from "./components/Controls";
 import Layout from "./components/Layout";
 import Title from "./components/Title";
 import TodoList from "./components/TodoList";
+import { fetchTodos } from "./store/todoSlice";
 
 function App() {
-  const state = useSelector((state) => state.todo);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    localStorage.setItem("TODOS", JSON.stringify(state.list));
-  }, [state.list]);
+    const fetchData = async () => {
+      await dispatch(fetchTodos());
+    };
+    fetchData();
+  }, [dispatch]);
 
   return (
     <Layout>

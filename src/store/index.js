@@ -1,20 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import todoReducer, { initialState } from "./todoSlice";
-
-const init = (initialState) => {
-  const savedTodoList = JSON.parse(localStorage.getItem("TODOS")) || [];
-
-  return {
-    ...initialState,
-    list: savedTodoList,
-  };
-};
+import todoReducer from "./todoSlice";
 
 export const store = configureStore({
   reducer: {
     todo: todoReducer,
-  },
-  preloadedState: {
-    todo: init(initialState),
   },
 });
